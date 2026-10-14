@@ -37,9 +37,23 @@ function initializeMotion() {
     const ticker = document.querySelector('[data-marquee]');
     if (ticker) gsap.to(ticker, { xPercent: -50, duration: 28, repeat: -1, ease: 'none' });
 
-    document.querySelectorAll('[data-gallery-panel]').forEach((panel) => {
-      gsap.fromTo(panel, { scale: .84, opacity: .35 }, { scale: 1, opacity: 1, ease: 'none', scrollTrigger: { trigger: panel, start: 'top 88%', end: 'center 46%', scrub: true } });
-      gsap.to(panel, { opacity: .22, ease: 'none', scrollTrigger: { trigger: panel, start: 'bottom 34%', end: 'bottom top', scrub: true } });
+    gsap.from('[data-gallery-panel]', {
+      y: 32,
+      opacity: 0,
+      duration: .8,
+      stagger: .08,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: '.memory-gallery', start: 'top 82%', once: true }
+    });
+
+    gsap.utils.toArray('.bento-card, .memory-intro > *, .ritual-heading > *, .home-cta-inner > *').forEach((item) => {
+      gsap.from(item, {
+        y: 24,
+        opacity: 0,
+        duration: .72,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: item, start: 'top 88%', once: true }
+      });
     });
 
     if (words.length) gsap.to(words, { opacity: 1, stagger: .08, ease: 'none', scrollTrigger: { trigger: '[data-reveal-copy]', start: 'top 78%', end: 'bottom 40%', scrub: true } });

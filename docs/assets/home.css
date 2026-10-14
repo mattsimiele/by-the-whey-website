@@ -14,3 +14,66 @@
 @media(max-width:820px){.home-page .nav-links{inset:76px 18px auto;border:1px solid rgba(255,250,242,.14);background:var(--home-ink)}.home-page .menu-toggle{display:block;color:var(--home-paper)}.chapter-heading,.ritual-heading{grid-template-columns:1fr;gap:24px}.experience-bento{grid-template-columns:1fr}.bento-journal,.bento-cellar,.bento-circle{grid-column:1}.taste-accordion{display:grid;min-height:auto}.taste-panel{min-height:128px;padding:24px;border-right:0;border-bottom:1px solid rgba(255,250,242,.18)}.taste-panel.is-active,.taste-panel:hover,.taste-panel:focus-visible{min-height:390px}.taste-panel-title{writing-mode:initial;transform:none}.taste-panel-body{left:24px;right:24px;bottom:28px;min-width:0}}
 @media(max-width:560px){.home-shell{width:min(100% - 28px,1440px)}.home-hero{padding-top:142px;padding-bottom:80px}.home-hero h1{max-width:100%;font-size:clamp(2.65rem,11vw,3.3rem);line-height:.92}.home-hero h1 br{display:none}.hero-lede{margin-top:28px}.hero-actions{align-items:stretch;flex-direction:column}.home-button{width:100%}.hero-art{min-height:400px}.hero-art-orbit{width:330px;height:330px}.hero-art-frame{width:88%;border-radius:38px}.hero-art-caption{right:0;bottom:24px}.home-section{padding:100px 0}.chapter-heading{margin-bottom:46px}.bento-journal{min-height:540px;padding:30px}.bento-cellar,.bento-circle{padding:28px}.bento-cellar img{width:145px}.catalog-panel{min-height:390px;padding:28px}.catalog-panel h3{margin-top:130px}.home-cta{padding-top:100px}}
 @media(prefers-reduced-motion:reduce){.ticker-track{transform:none!important}.reveal-copy .reveal-word{opacity:1!important}[data-gallery-panel],[data-hero-copy],[data-hero-art]{opacity:1!important;transform:none!important}.interactive-card,.hero-art-frame img,.bento-cellar img{transition:none!important}}
+
+/* Lower-page refinement: preserve the editorial language while tightening the scroll rhythm. */
+.memory-section{padding:clamp(100px,9vw,142px) 0;background:var(--home-cream)}
+.memory-intro{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:clamp(48px,8vw,130px);align-items:end;margin-bottom:58px}
+.memory-heading{position:static;display:flex;gap:24px;align-items:center}
+.memory-heading h2{max-width:none;margin:0;font-size:clamp(4rem,6.2vw,7.2rem);line-height:.86}
+.memory-heading .inline-character{width:96px;height:64px;flex:0 0 auto;margin:0;vertical-align:initial}
+.memory-copy{padding-bottom:8px}
+.memory-copy p{max-width:520px;margin:0;font-size:1.08rem;line-height:1.55}
+.memory-copy .text-link{margin-top:24px}
+.memory-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:0}
+.catalog-panel{min-height:330px;padding:30px;border:0;border-radius:24px;box-shadow:none}
+.catalog-panel:nth-child(n){margin:0}
+.catalog-panel h3{margin:92px 0 8px;font-size:clamp(2.7rem,4vw,4.8rem)}
+.flavor-line{margin-top:26px}
+
+.ritual-section{padding:clamp(100px,9vw,142px) 0}
+.ritual-heading{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(260px,.72fr);gap:clamp(48px,8vw,130px);align-items:end;margin-bottom:54px}
+.ritual-heading h2{max-width:900px;margin:0;font-family:"Cabinet Grotesk",sans-serif;font-size:clamp(3.6rem,5.7vw,6.4rem);font-weight:500;line-height:.9;letter-spacing:-.055em}
+.ritual-heading>p{max-width:420px;margin:0 0 8px;color:rgba(255,250,242,.72);font-size:1.08rem;line-height:1.55}
+.taste-accordion{min-height:370px;border:0;border-radius:24px;background:#321f15}
+.taste-panel{padding:26px;border-right:2px solid var(--home-ink);background:#321f15}
+.taste-panel.is-active,.taste-panel:hover,.taste-panel:focus-visible{flex:3.2}
+.taste-panel-title{font-size:.82rem;letter-spacing:.08em;text-transform:none}
+.taste-panel-body{left:78px;right:30px;bottom:30px;min-width:400px}
+.taste-panel-body h3{max-width:520px;margin-bottom:12px;font-size:clamp(2.4rem,3.9vw,4.5rem)}
+
+.home-cta{padding:84px 0 54px}
+.home-cta-inner{grid-template-columns:minmax(0,1fr) auto;gap:60px;align-items:end}
+.home-cta h2{max-width:none;font-size:clamp(4rem,7vw,7.5rem);line-height:.86}
+.home-cta-inner>div>p{max-width:610px;margin:22px 0 0;font-size:1.08rem}
+.home-cta .home-button{min-width:170px}
+.home-page .site-footer{padding:26px 0 34px;border-top:0}
+.home-page .footer-grid{align-items:center}
+.home-page .copyright{margin-top:12px}
+
+@media(max-width:980px){.memory-intro,.ritual-heading{grid-template-columns:1fr;gap:28px}.memory-gallery{grid-template-columns:repeat(3,minmax(230px,1fr))}.home-cta-inner{grid-template-columns:1fr auto}.catalog-panel{min-height:310px}.catalog-panel h3{margin-top:82px}}
+@media(max-width:820px){.memory-heading{align-items:flex-end}.memory-heading .inline-character{width:72px;height:48px}.memory-gallery{grid-auto-flow:column;grid-auto-columns:min(82vw,360px);grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}.memory-gallery::-webkit-scrollbar{display:none}.catalog-panel{scroll-snap-align:start}.ritual-heading h2{font-size:clamp(3rem,10vw,5rem)}.taste-accordion{min-height:auto}.taste-panel{min-height:96px;border-right:0;border-bottom:2px solid var(--home-ink)}.taste-panel.is-active,.taste-panel:hover,.taste-panel:focus-visible{min-height:280px}.taste-panel-body{left:24px;right:24px;bottom:24px;min-width:0}.home-cta-inner{grid-template-columns:1fr;gap:30px;align-items:start}.home-cta .home-button{width:auto}.home-page .footer-grid{align-items:flex-start}}
+@media(max-width:560px){.memory-section,.ritual-section{padding:88px 0}.memory-intro{margin-bottom:38px}.memory-heading{gap:14px}.memory-heading h2{font-size:clamp(3.1rem,15vw,4rem)}.memory-copy p,.ritual-heading>p{font-size:1rem}.catalog-panel{min-height:300px}.catalog-panel h3{margin-top:76px}.ritual-heading{margin-bottom:36px}.taste-panel.is-active,.taste-panel:hover,.taste-panel:focus-visible{min-height:270px}.taste-panel-body h3{font-size:2.6rem}.home-cta{padding:74px 0 38px}.home-cta h2{font-size:clamp(3.4rem,16vw,4.8rem)}.home-cta .home-button{width:100%}.home-page .site-footer{padding-bottom:28px}}
+
+/* Remove inherited visual tells while keeping the established By the Whey palette. */
+.home-page .nav{border:0;background:var(--home-ink);box-shadow:none;backdrop-filter:none}
+.home-hero{background:var(--home-cream)}
+.home-hero h1 em{color:inherit;font-weight:500}
+.home-button-quiet{border:0;background:var(--home-paper)}
+.hero-art-orbit{display:none}
+.hero-art-frame{border:0;box-shadow:none}
+.ticker{border:0}
+.ticker-track span{font-size:.95rem;letter-spacing:0;text-transform:none}
+.interest-heading{display:block;max-width:1100px}
+.bento-card{border:0}
+.interactive-card:hover{box-shadow:none}
+.bento-journal:after{display:none}
+.panel-top{font-size:.86rem;letter-spacing:0;text-transform:none}
+.flavor-line span{font-size:.82rem}
+.taste-panel-body{visibility:hidden}
+.taste-panel.is-active .taste-panel-body,.taste-panel:hover .taste-panel-body,.taste-panel:focus-visible .taste-panel-body{visibility:visible}
+.taste-panel.is-active .taste-panel-title,.taste-panel:hover .taste-panel-title,.taste-panel:focus-visible .taste-panel-title{display:none}
+.taste-panel.is-active .taste-panel-body,.taste-panel:hover .taste-panel-body,.taste-panel:focus-visible .taste-panel-body{left:30px}
+.home-page .nav-links a,.hero-note,.home-page .wordmark small,.home-page .copyright{font-size:13px}
+
+@media(max-width:980px){.home-hero h1{font-size:clamp(4rem,9vw,6rem)}}
+@media(max-width:560px){.home-hero h1{font-size:clamp(2.55rem,10.5vw,3.15rem)}.interest-heading h2{font-size:clamp(3rem,13vw,3.8rem)}.bento-card h3{font-size:clamp(2.2rem,10vw,3rem)}.bento-cellar img{right:-12px;bottom:-16px;width:105px}.bento-cellar h3{max-width:220px}.taste-panel.is-active .taste-panel-body,.taste-panel:hover .taste-panel-body,.taste-panel:focus-visible .taste-panel-body{left:24px}}
