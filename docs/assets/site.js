@@ -118,6 +118,18 @@ function renderFooter() {
 
   const shell = document.createElement('div');
   shell.className = 'shell';
+
+  const lead = document.createElement('div');
+  lead.className = 'footer-lead';
+  const statement = document.createElement('p');
+  statement.className = 'footer-statement';
+  statement.textContent = 'Remember the cheese.';
+  const invitation = document.createElement('a');
+  invitation.className = 'footer-invitation';
+  invitation.href = 'mailto:support@thecurdnerd.com?subject=Join%20the%20By%20the%20Whey%20beta';
+  invitation.textContent = 'Join the beta';
+  lead.append(statement, invitation);
+
   const grid = document.createElement('div');
   grid.className = 'footer-grid';
   grid.append(wordmark());
@@ -131,7 +143,7 @@ function renderFooter() {
   const copyright = document.createElement('p');
   copyright.className = 'copyright';
   copyright.textContent = `© ${new Date().getFullYear()} The Curd Nerd LLC. By the Whey is currently in beta.`;
-  shell.append(grid, copyright);
+  shell.append(lead, grid, copyright);
   footer.replaceChildren(shell);
 }
 
