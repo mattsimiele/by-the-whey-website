@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore the By the Whey cheese catalog by style, maker, milk, origin, flavor, and community rating.">
+  <meta name="theme-color" content="#9ed6f9">
+  <meta property="og:title" content="Explore the cheese catalog — By the Whey">
+  <meta property="og:description" content="Find your next favorite cheese with stories, flavor profiles, pairings, and community ratings.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bythe-whey.com/catalog/">
+  <meta property="og:image" content="https://bythe-whey.com/assets/by-the-whey-icon.png?v=20260819-art-r2">
+  <title>Explore the cheese catalog — By the Whey</title>
+  <link rel="canonical" href="https://bythe-whey.com/catalog/">
+  <link rel="icon" href="/assets/by-the-whey-icon.png?v=20260819-art-r2">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260830-navigation">
+  <link rel="stylesheet" href="/assets/catalog.css?v=20260901-availability-push">
+  <script src="/assets/site.js?v=20260830-navigation" defer></script>
+  <script type="module" src="/assets/catalog.js?v=20260901-availability-push"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="wordmark" href="/" aria-label="By the Whey home"><img class="wordmark-mark" src="/assets/by-the-whey-character.png?v=20260819-art-r2" alt=""><span><strong>By the Whey</strong><small>Built by The Curd Nerd</small></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" data-menu-toggle>Menu</button>
+      <nav class="nav-links" aria-label="Main navigation" data-menu><a href="/">Home</a><a aria-current="page" href="/catalog/">Catalog</a><a href="/guidelines/">Community</a><a href="/manage/">Catalog Studio</a><a class="nav-cta" href="mailto:support@thecurdnerd.com?subject=Join%20the%20By%20the%20Whey%20beta">Join the beta</a></nav>
+    </div>
+  </header>
+  <main>
+    <section class="catalog-hero"><div class="shell"><p class="eyebrow">The By the Whey catalog</p><h1>Find a cheese worth <em>remembering.</em></h1><p class="lede">Search by maker, region, style, milk, or flavor. Every published cheese is checked by the By the Whey catalog team.</p></div></section>
+    <section class="catalog-controls" aria-label="Catalog filters"><div class="shell catalog-toolbar">
+      <label>Search<input type="search" data-catalog-search placeholder="Cheese, maker, region, milk, flavor…" autocomplete="off"></label>
+      <label>Category<select data-category-filter><option>All</option></select></label>
+      <label>Availability<select data-availability-filter><option value="all">All cheeses</option><option value="available">In the case now</option></select></label>
+      <label>Sort by<select data-sort><option>Highest rated</option><option>In the case first</option><option>Most tasted</option><option>Recently added</option><option>Alphabetical</option></select></label>
+    </div></section>
+    <section class="catalog-results"><div class="shell">
+      <p class="catalog-status" data-catalog-status aria-live="polite">Loading the cheese catalog…</p>
+      <button class="button secondary" type="button" data-catalog-retry hidden>Try again</button>
+      <div class="public-catalog-grid" data-catalog-grid></div>
+      <div class="catalog-empty" data-catalog-empty hidden><h2>No cheeses found.</h2><p>Try another name, maker, region, flavor, or category.</p></div>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="shell"><div class="footer-grid"><a class="wordmark" href="/"><img class="wordmark-mark" src="/assets/by-the-whey-character.png?v=20260819-art-r2" alt=""><span><strong>By the Whey</strong><small>Built by The Curd Nerd</small></span></a><nav class="footer-links"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/guidelines/">Guidelines</a><a href="/support/">Support</a></nav></div><p class="copyright">© 2026 The Curd Nerd LLC. By the Whey is currently in beta.</p></div></footer>
+</body>
+</html>

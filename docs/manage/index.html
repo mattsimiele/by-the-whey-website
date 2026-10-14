@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Secure catalog management for the By the Whey cheese catalog.">
+  <meta name="theme-color" content="#9ed6f9">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Catalog Studio — By the Whey</title>
+  <link rel="icon" href="/assets/by-the-whey-icon.png?v=20260819-art-r2">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260830-navigation">
+  <link rel="stylesheet" href="/manage/manage.css?v=20260830-availability">
+  <script src="/assets/site.js?v=20260830-navigation" defer></script>
+  <script type="module" src="/manage/manage.js?v=20260830-availability"></script>
+</head>
+<body class="studio-body">
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="wordmark" href="/" aria-label="By the Whey home">
+        <img class="wordmark-mark" src="/assets/by-the-whey-character.png?v=20260819-art-r2" alt="">
+        <span><strong>By the Whey</strong><small>Built by The Curd Nerd</small></span>
+      </a>
+      <div class="studio-account" data-account hidden>
+        <span class="role-badge" data-role></span>
+        <button class="text-button" type="button" data-sign-out>Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell studio-main">
+    <section class="auth-layout" data-auth-view>
+      <div class="auth-intro">
+        <p class="eyebrow">Catalog Studio</p>
+        <h1>Keep every cheese detail <em>sharp.</em></h1>
+        <p class="lede">A focused workspace for The Curd Nerd team to review, correct, and expand the catalog before release.</p>
+        <div class="access-note"><strong>Protected workspace</strong><span>Only approved cheesemongers and administrators can manage catalog information.</span></div>
+      </div>
+      <form class="auth-card" data-auth-form>
+        <p class="eyebrow">Team sign in</p>
+        <h2>Welcome back.</h2>
+        <label>Email<input type="email" name="email" autocomplete="email" required placeholder="you@example.com"></label>
+        <label>Password<input type="password" name="password" autocomplete="current-password" required placeholder="Your password"></label>
+        <p class="form-message" data-auth-message aria-live="polite"></p>
+        <button class="button full-button" type="submit" data-email-sign-in>Sign in with email</button>
+        <div class="auth-divider"><span>or</span></div>
+        <button class="button secondary full-button" type="button" data-google-sign-in>Continue with Google</button>
+        <a class="forgot-link" href="#" data-reset-password>Send me a password reset email</a>
+      </form>
+    </section>
+
+    <section class="access-denied" data-access-denied hidden>
+      <p class="eyebrow">Catalog access</p>
+      <h1>This account is not approved for catalog work.</h1>
+      <p data-access-message>Your account must be an approved cheesemonger or administrator. Contact an administrator if you believe this is a mistake.</p>
+      <button class="button secondary" type="button" data-denied-sign-out>Sign out</button>
+    </section>
+
+    <section class="workspace" data-workspace hidden>
+      <div class="workspace-heading">
+        <div><p class="eyebrow">Catalog Studio</p><h1>Cheese, checked.</h1><p>Search every published record, make corrections, and review new submissions.</p></div>
+        <button class="button" type="button" data-new-cheese>Add a cheese</button>
+      </div>
+
+      <div class="stats-grid" aria-label="Catalog summary">
+        <article><span>Published</span><strong data-published-count>—</strong></article>
+        <article><span>Awaiting review</span><strong data-pending-count>—</strong></article>
+        <article><span>Categories</span><strong>9</strong></article>
+      </div>
+
+      <div class="studio-tabs" role="tablist" aria-label="Catalog sections">
+        <button type="button" role="tab" aria-selected="true" data-tab="catalog">Catalog</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="review">Review queue <span data-review-badge></span></button>
+      </div>
+
+      <section class="panel" data-panel="catalog">
+        <div class="toolbar">
+          <label class="search-field"><span class="sr-only">Search catalog</span><input type="search" data-search placeholder="Search cheese, creamery, location, or style…"></label>
+          <label><span class="sr-only">Filter by category</span><select data-category-filter><option value="">All categories</option></select></label>
+        </div>
+        <p class="panel-status" data-catalog-status aria-live="polite">Loading the catalog…</p>
+        <div class="catalog-list" data-catalog-list></div>
+        <div class="empty-state" data-catalog-empty hidden><h3>No cheese matches that search.</h3><p>Try another name, maker, location, or category.</p></div>
+      </section>
+
+      <section class="panel" data-panel="review" hidden>
+        <div class="review-heading"><div><h2>Review queue</h2><p>Approve complete submissions or send them back for correction.</p></div></div>
+        <p class="panel-status" data-review-status aria-live="polite"></p>
+        <div class="review-list" data-review-list></div>
+        <div class="empty-state" data-review-empty hidden><span>✓</span><h3>The review queue is clear.</h3><p>New cheesemonger submissions will appear here.</p></div>
+      </section>
+    </section>
+  </main>
+
+  <div class="modal" data-editor-modal hidden>
+    <button class="modal-backdrop" type="button" aria-label="Close editor" data-close-editor></button>
+    <section class="editor-sheet" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+      <header class="editor-header"><div><p class="eyebrow" data-editor-kicker>Catalog record</p><h2 id="editor-title" data-editor-title>Add a cheese</h2></div><button class="close-button" type="button" aria-label="Close editor" data-close-editor>×</button></header>
+      <form data-cheese-form>
+        <input type="hidden" name="id">
+        <div class="form-section"><h3>Identity</h3><div class="form-grid two"><label>Cheese name<input name="name" required></label><label>Creamery<input name="creamery_name" required></label><label>In the Case at The Curd Nerd?<select name="in_curd_nerd_case" required><option value="false">No</option><option value="true">Yes</option></select></label></div></div>
+        <div class="form-section catalog-photo-section" data-photo-section>
+          <div class="photo-section-heading"><div><h3>Catalog photo</h3><p>Manage the image shown in Discover, the public catalog, and cheese details.</p></div><span class="role-badge">Admin</span></div>
+          <div class="photo-editor" data-photo-controls hidden>
+            <div class="photo-preview">
+              <img data-photo-preview alt="">
+              <div class="photo-placeholder" data-photo-placeholder>No catalog photo</div>
+            </div>
+            <div class="photo-editor-copy">
+              <strong data-photo-title>No photo is currently published.</strong>
+              <p data-photo-description>Choose a JPEG, PNG, or WebP image up to 10 MB. A new upload replaces every currently approved photo for this cheese.</p>
+              <div class="photo-actions">
+                <label class="small-button photo-picker">Choose photo<input class="sr-only" type="file" accept="image/jpeg,image/png,image/webp" data-photo-input></label>
+                <button class="button" type="button" data-upload-photo disabled>Upload photo</button>
+                <button class="small-button danger-button" type="button" data-remove-photo hidden>Remove photo</button>
+              </div>
+              <p class="form-message photo-message" data-photo-message aria-live="polite"></p>
+            </div>
+          </div>
+          <div class="photo-unavailable" data-photo-unavailable>Save this cheese first, then reopen it to add its catalog photo.</div>
+        </div>
+        <div class="form-section"><h3>Origin</h3><div class="form-grid three"><label>City<input name="location_city" required></label><label>Region / state<input name="location_region" required></label><label>Country<input name="location_country" required value="USA"></label></div></div>
+        <div class="form-section"><h3>Classification</h3><div class="form-grid two"><label>Catalog category<select name="catalog_category" required></select></label><label>Cheese style<input name="cheese_style" required placeholder="e.g. cheddar"></label><label>Milk type<input name="milk_type" required placeholder="e.g. raw cow’s milk"></label><label>Rennet<input name="rennet" required placeholder="e.g. animal"></label><label class="span-two">Age (if applicable)<input name="age_description" required></label></div></div>
+        <div class="form-section"><h3>Tasting information</h3><div class="form-grid"><label>Flavor profile<textarea name="flavor_profile" required rows="3" placeholder="Separate each flavor with a comma or a new line"></textarea><small>Example: brothy, caramelized onions, toasted nuts</small></label><label>Story / notes<textarea name="story_notes" required rows="5"></textarea></label><label>Pairings<textarea name="pairings" required rows="4" placeholder="Separate each pairing with a comma or a new line"></textarea></label></div></div>
+        <p class="form-message" data-editor-message aria-live="polite"></p>
+        <footer class="editor-actions"><button class="button secondary" type="button" data-close-editor>Cancel</button><button class="button" type="submit" data-save-cheese>Submit for review</button></footer>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
+</body>
+</html>
