@@ -77,3 +77,19 @@
 
 @media(max-width:980px){.home-hero h1{font-size:clamp(4rem,9vw,6rem)}}
 @media(max-width:560px){.home-hero h1{font-size:clamp(2.55rem,10.5vw,3.15rem)}.interest-heading h2{font-size:clamp(3rem,13vw,3.8rem)}.bento-card h3{font-size:clamp(2.2rem,10vw,3rem)}.bento-cellar img{right:-12px;bottom:-16px;width:105px}.bento-cellar h3{max-width:220px}.taste-panel.is-active .taste-panel-body,.taste-panel:hover .taste-panel-body,.taste-panel:focus-visible .taste-panel-body{left:24px}}
+
+/* Spacing pass: every section should earn its height. */
+.home-hero{min-height:780px;padding:150px 0 76px}
+.hero-art{min-height:500px}
+.interest-section{padding:clamp(82px,7vw,112px) 0}
+.chapter-heading{margin-bottom:48px}
+.bento-journal{min-height:480px;padding:44px}
+.memory-section,.ritual-section{padding:clamp(78px,6.5vw,108px) 0}
+.memory-intro{margin-bottom:42px}
+.ritual-heading{margin-bottom:40px}
+.taste-accordion{min-height:340px}
+.home-cta{padding:66px 0 42px}
+.home-page .site-footer{padding:22px 0 28px}
+
+@media(max-width:980px){.home-hero{padding-top:142px;padding-bottom:68px}.hero-art{min-height:460px}.interest-section{padding:82px 0}}
+@media(max-width:560px){.home-hero{padding-top:126px;padding-bottom:58px}.hero-art{min-height:350px}.home-section,.interest-section{padding:72px 0}.chapter-heading{margin-bottom:34px}.bento-journal{min-height:450px;padding:28px}.memory-section,.ritual-section{padding:70px 0}.memory-intro{margin-bottom:30px}.catalog-panel{min-height:280px}.catalog-panel h3{margin-top:62px}.ritual-heading{margin-bottom:30px}.taste-panel.is-active,.taste-panel:hover,.taste-panel:focus-visible{min-height:250px}.home-cta{padding:60px 0 30px}.home-page .site-footer{padding:18px 0 24px}}

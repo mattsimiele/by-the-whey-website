@@ -34,9 +34,6 @@ function initializeMotion() {
   media.add('(prefers-reduced-motion: no-preference)', () => {
     gsap.from('[data-hero-copy] > *', { y: 36, opacity: 0, duration: 1, stagger: .09, ease: 'power3.out' });
     gsap.from('[data-hero-art]', { scale: .84, opacity: 0, duration: 1.2, ease: 'power3.out' });
-    const ticker = document.querySelector('[data-marquee]');
-    if (ticker) gsap.to(ticker, { xPercent: -50, duration: 28, repeat: -1, ease: 'none' });
-
     gsap.from('[data-gallery-panel]', {
       y: 32,
       opacity: 0,
