@@ -30,14 +30,14 @@ function card(cheese) {
     ? `<img src="${escapeHtml(cheese.image_url)}" alt="${escapeHtml(cheese.name)} cheese" loading="lazy">`
     : `<div class="catalog-card-placeholder"><img src="/assets/by-the-whey-character.png?v=20260819-art-r2" alt="" loading="lazy"></div>`;
   return `<article class="public-cheese-card">
-    <a class="public-cheese-image" href="/cheese/${encodeURIComponent(cheese.slug)}/">${image}</a>
+    <a class="public-cheese-image" href="/cheese/?slug=${encodeURIComponent(cheese.slug)}">${image}</a>
     <div class="public-cheese-copy">
       <div class="public-cheese-meta"><span>${escapeHtml(cheese.catalog_category || cheese.cheese_style)}</span><span aria-label="${escapeHtml(ratingLabel(cheese))}">${cheese.rating_count ? `★ ${cheese.average_rating.toFixed(1)}` : 'New'}</span></div>
-      <h2><a href="/cheese/${encodeURIComponent(cheese.slug)}/">${escapeHtml(cheese.name)}</a></h2>
+      <h2><a href="/cheese/?slug=${encodeURIComponent(cheese.slug)}">${escapeHtml(cheese.name)}</a></h2>
       <p class="public-cheese-maker">${escapeHtml(cheese.creamery_name)}</p>
       <p>${escapeHtml(locationLabel(cheese))}</p>
       <p class="case-status ${cheese.in_curd_nerd_case ? 'is-available' : 'is-unavailable'}"><span aria-hidden="true">${cheese.in_curd_nerd_case ? '●' : '○'}</span> ${cheese.in_curd_nerd_case ? 'In the case at The Curd Nerd' : 'Not currently in the case'}${cheese.case_availability_updated_at ? `<small>Updated ${new Date(cheese.case_availability_updated_at).toLocaleDateString()}</small>` : ''}</p>
-      <a class="card-link" href="/cheese/${encodeURIComponent(cheese.slug)}/">Explore this cheese <span aria-hidden="true">→</span></a>
+      <a class="card-link" href="/cheese/?slug=${encodeURIComponent(cheese.slug)}">Explore this cheese <span aria-hidden="true">→</span></a>
     </div>
   </article>`;
 }
@@ -54,7 +54,10 @@ function populateCategories() {
   CATEGORIES.forEach((category) => select.insertAdjacentHTML('beforeend', `<option>${escapeHtml(category)}</option>`));
 }
 
+let loading = false;
 async function load() {
+  if (loading) return;
+  loading = true;
   retry.hidden = true;
   status.textContent = 'Loading the cheese catalog…';
   grid.setAttribute('aria-busy', 'true');
@@ -65,6 +68,7 @@ async function load() {
     status.textContent = 'The catalog could not be loaded. Check your connection and try again.';
     retry.hidden = false;
   } finally {
+    loading = false;
     grid.removeAttribute('aria-busy');
   }
 }
@@ -76,3 +80,7 @@ document.querySelector('[data-sort]').addEventListener('change', (event) => { st
 retry.addEventListener('click', load);
 populateCategories();
 load();
+
+// Refresh approvals when visitors return, and while the catalog remains open.
+document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+setInterval(() => { if (!document.hidden) load(); }, 60000);
