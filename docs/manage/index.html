@@ -10,8 +10,9 @@
   <link rel="icon" href="/assets/by-the-whey-icon.png?v=20260819-art-r2">
   <link rel="stylesheet" href="/assets/styles.css?v=20261014-shared-chrome">
   <link rel="stylesheet" href="/manage/manage.css?v=20260830-availability">
+  <link rel="stylesheet" href="/manage/review-terminal.css?v=20261107">
   <script src="/assets/site.js?v=20261014-shared-chrome" defer></script>
-  <script type="module" src="/manage/manage.js?v=20260830-availability"></script>
+  <script type="module" src="/manage/manage.js?v=20261107-terminal"></script>
 </head>
 <body class="studio-body">
   <header class="site-header">
@@ -70,6 +71,7 @@
       <div class="studio-tabs" role="tablist" aria-label="Catalog sections">
         <button type="button" role="tab" aria-selected="true" data-tab="catalog">Catalog</button>
         <button type="button" role="tab" aria-selected="false" data-tab="review">Review queue <span data-review-badge></span></button>
+        <button type="button" role="tab" aria-selected="false" data-tab="terminal" hidden>Review terminal</button>
       </div>
 
       <section class="panel" data-panel="catalog">
@@ -88,6 +90,7 @@
         <div class="review-list" data-review-list></div>
         <div class="empty-state" data-review-empty hidden><span>✓</span><h3>The review queue is clear.</h3><p>New cheesemonger submissions will appear here.</p></div>
       </section>
+      <section class="review-terminal" data-panel="terminal" aria-label="Cheese review terminal" hidden></section>
     </section>
   </main>
 

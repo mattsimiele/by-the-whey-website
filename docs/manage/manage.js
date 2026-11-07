@@ -1,4 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { persistReviewNote } from './review-notes.js?v=20261107';
+import { createReviewTerminal, persistReviewDecision } from './review-terminal.js?v=20261107';
 
 const SUPABASE_URL = 'https://sxfulqjshurmegsvcsrm.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_nGe3mfatg8TIdfWFNgu9_w_jt3FQDou';
@@ -16,11 +18,55 @@ const views = {
   account: $('[data-account]'), modal: $('[data-editor-modal]'),
 };
 
+const terminal = createReviewTerminal($('[data-panel="terminal"]'), {
+  isActive: () => state.activeTab === 'terminal' && !views.workspace.hidden && views.modal.hidden && state.profile?.role === 'admin',
+  edit: populateEditor,
+  async loadNotes() {
+    if (state.profile?.role !== 'admin') return [];
+    const notes = [];
+    for (let offset = 0; ; offset += 500) {
+      const { data, error } = await supabase.from('cheese_review_notes').select('cheese_id,note,updated_at').order('cheese_id').range(offset, offset + 499);
+      if (error) throw error;
+      notes.push(...(data || []));
+      if (!data || data.length < 500) return notes;
+    }
+  },
+  async saveNote(id, note, previous) {
+    if (state.profile?.role !== 'admin') throw new Error('Administrator access is required.');
+    return persistReviewNote(supabase, id, note, previous);
+  },
+  refresh: loadPending,
+  photoUrl: (cheese) => publicCatalogPhotoUrl(currentCatalogPhoto(cheese)?.storage_path),
+  async decide(cheese, status, approvedBy) {
+    if (state.profile?.role !== 'admin' || !state.user) throw new Error('Administrator access is required.');
+    const userId = state.user.id;
+    const updated = await persistReviewDecision(supabase, cheese, status, userId, approvedBy);
+    if (state.user?.id !== userId) return updated;
+    state.pending = state.pending.filter((item) => item.id !== updated.id);
+    state.catalog = state.catalog.filter((item) => item.id !== updated.id);
+    if (status === 'published') state.catalog.push(updated); else state.pending.push(updated);
+    state.catalog.sort((a, b) => a.name.localeCompare(b.name));
+    state.pending.sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)) || a.id.localeCompare(b.id));
+    updatePendingCounts();
+    $('[data-published-count]').textContent = state.catalog.length;
+    $('[data-catalog-status]').textContent = `${state.catalog.length} published cheeses`;
+    renderCatalog();
+    renderPending(false);
+    return updated;
+  },
+});
+
 function setView(name) {
   views.auth.hidden = name !== 'auth';
   views.denied.hidden = name !== 'denied';
   views.workspace.hidden = name !== 'workspace';
   views.account.hidden = name === 'auth';
+  document.body.classList.toggle('terminal-mode', name === 'workspace' && state.activeTab === 'terminal');
+  if (name !== 'workspace') {
+    closeEditor();
+    state.pending = [];
+    terminal.setRows([], null);
+  }
 }
 
 function message(element, text, success = false) {
@@ -77,6 +123,8 @@ async function enterWorkspace(session) {
     setView('workspace');
     const reviewTab = $('[data-tab="review"]');
     reviewTab.hidden = state.profile.role !== 'admin';
+    $('[data-tab="terminal"]').hidden = state.profile.role !== 'admin';
+    if (state.profile.role !== 'admin' && state.activeTab !== 'catalog') switchTab('catalog');
     await loadEverything();
   } catch (error) {
     setView('auth');
@@ -99,12 +147,35 @@ async function loadCatalog() {
 }
 
 async function loadPending() {
-  const { data, error } = await supabase.from('cheeses').select('*,cheese_photos(id,storage_path,moderation_status,created_at)').in('status', ['pending', 'draft']).order('created_at');
-  if (error) { $('[data-review-status]').textContent = readableError(error); return; }
-  state.pending = data || [];
+  const userId = state.user?.id;
+  const requestId = ++loadPending.requestId;
+  terminal.setLoading();
+  $('[data-review-status]').textContent = 'Loading review queue…';
+  try {
+    const pending = [];
+    // Fetch every page: bulk imports must not be truncated by the API row limit.
+    for (let offset = 0; ; offset += 500) {
+      const { data, error } = await supabase.from('cheeses').select('*,cheese_photos(id,storage_path,moderation_status,created_at)').in('status', ['pending', 'draft']).order('created_at').order('id').range(offset, offset + 499);
+      if (error) throw error;
+      pending.push(...(data || []));
+      if (!data || data.length < 500) break;
+    }
+    if (state.user?.id !== userId || requestId !== loadPending.requestId) return;
+    state.pending = pending;
+    updatePendingCounts();
+    $('[data-review-status]').textContent = `${pending.length} unpublished cheeses`;
+    renderPending();
+  } catch (error) {
+    if (state.user?.id !== userId || requestId !== loadPending.requestId) return;
+    $('[data-review-status]').textContent = readableError(error);
+    terminal.setError(readableError(error));
+  }
+}
+loadPending.requestId = 0;
+
+function updatePendingCounts() {
   $('[data-pending-count]').textContent = state.pending.length;
   $('[data-review-badge]').textContent = state.pending.length ? `(${state.pending.length})` : '';
-  renderPending();
 }
 
 function renderCatalog() {
@@ -124,7 +195,10 @@ function renderCatalog() {
     </article>`).join('');
 }
 
-function renderPending() {
+function renderPending(syncTerminal = true) {
+  if (syncTerminal) terminal.setRows(state.pending, state.user?.id);
+  // Keep the card-based tool available without rebuilding hundreds of hidden cards per keystroke.
+  if (state.activeTab !== 'review') return;
   const list = $('[data-review-list]');
   $('[data-review-empty]').hidden = state.pending.length > 0;
   list.innerHTML = state.pending.map((cheese) => `
@@ -321,6 +395,7 @@ function closeEditor() {
   state.editorCheese = null;
   views.modal.hidden = true;
   document.body.style.overflow = '';
+  if (state.activeTab === 'terminal' && !views.workspace.hidden) terminal.focus();
 }
 
 async function saveCheese(event) {
@@ -367,9 +442,13 @@ async function reviewCheese(id, approve) {
 }
 
 function switchTab(tab) {
+  if (tab !== 'catalog' && state.profile?.role !== 'admin') return;
   state.activeTab = tab;
   $$('[data-tab]').forEach((button) => button.setAttribute('aria-selected', String(button.dataset.tab === tab)));
   $$('[data-panel]').forEach((panel) => { panel.hidden = panel.dataset.panel !== tab; });
+  document.body.classList.toggle('terminal-mode', tab === 'terminal');
+  if (tab === 'review') renderPending(false);
+  if (tab === 'terminal') { window.scrollTo(0, 0); terminal.focus(); }
 }
 
 CATEGORIES.forEach((category) => {
@@ -401,7 +480,10 @@ $('[data-reset-password]').addEventListener('click', async (event) => {
   message($('[data-auth-message]'), error ? readableError(error) : 'Password reset email sent.', !error);
 });
 
-async function signOut() { await supabase.auth.signOut(); }
+async function signOut() {
+  if (terminal.hasUnsavedNotes()) { toast('Save your review notes before signing out.'); return; }
+  await supabase.auth.signOut();
+}
 $('[data-sign-out]').addEventListener('click', signOut);
 $('[data-denied-sign-out]').addEventListener('click', signOut);
 $('[data-new-cheese]').addEventListener('click', () => populateEditor());
