@@ -191,7 +191,7 @@ function renderCatalog() {
       <div><h3>${escapeHtml(cheese.name)}</h3><p>${escapeHtml(cheese.creamery_name)}</p><p>${cheese.in_curd_nerd_case ? 'In the case now' : 'Not in the case'}${cheese.case_availability_updated_at ? ` · updated ${new Date(cheese.case_availability_updated_at).toLocaleDateString()}` : ''}</p></div>
       <span>${escapeHtml([cheese.location_city, cheese.location_region, cheese.location_country].filter(Boolean).join(', '))}</span>
       <span class="category-chip">${escapeHtml(cheese.catalog_category || cheese.cheese_style)}</span>
-      ${state.profile.role === 'admin' ? `<button class="small-button" type="button" data-toggle-case="${cheese.id}" aria-pressed="${Boolean(cheese.in_curd_nerd_case)}">${cheese.in_curd_nerd_case ? 'Mark out of case' : 'Mark in case'}</button><button class="small-button" type="button" data-edit-cheese="${cheese.id}">Edit cheese</button>` : '<span></span>'}
+      ${state.profile.role === 'admin' ? `<div class="catalog-row-actions"><button class="small-button" type="button" data-toggle-case="${cheese.id}" aria-pressed="${Boolean(cheese.in_curd_nerd_case)}">${cheese.in_curd_nerd_case ? 'Mark out of case' : 'Mark in case'}</button><button class="small-button" type="button" data-edit-cheese="${cheese.id}">Edit cheese</button></div>` : '<span></span>'}
     </article>`).join('');
 }
 
